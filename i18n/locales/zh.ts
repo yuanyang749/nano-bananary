@@ -90,6 +90,19 @@ export default {
     missingPrompt: "请输入描述您想看到的更改的提示。",
     step1Failed: "第1步（线稿）未能生成图片。",
     useAsInputFailed: "无法使用生成的图片作为新输入。",
+    missingApiKey: "请先设置您的 Gemini API Key。",
+  },
+  apiKey: {
+    title: "API Key 设置",
+    notSet: "未设置",
+    inputLabel: "Gemini API Key",
+    placeholder: "输入您的 Gemini API Key",
+    instructions: "您需要一个 Google AI Studio 的 API Key 来使用此应用。API Key 将安全地存储在您的浏览器本地。",
+    getKeyLink: "获取免费 API Key",
+    save: "保存",
+    clear: "清除",
+    saved: "已保存",
+    validating: "保存中...",
   },
   transformations: {
     custom: {

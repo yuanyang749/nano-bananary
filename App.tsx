@@ -15,6 +15,7 @@ import MultiImageUploader from './components/MultiImageUploader';
 import HistoryPanel from './components/HistoryPanel';
 import { I18nProvider, useI18n } from './i18n';
 import LanguageSwitcher from './components/LanguageSwitcher';
+import ApiKeySettings from './components/ApiKeySettings';
 
 type ActiveTool = 'mask' | 'none';
 
@@ -37,6 +38,33 @@ const AppContent: React.FC = () => {
   const [activeTool, setActiveTool] = useState<ActiveTool>('none');
   const [history, setHistory] = useState<GeneratedContent[]>([]);
   const [isHistoryPanelOpen, setIsHistoryPanelOpen] = useState<boolean>(false);
+  const [userApiKey, setUserApiKey] = useState<string>('');
+
+  // 加载保存的 API Key
+  useEffect(() => {
+    try {
+      const savedApiKey = localStorage.getItem('gemini_api_key');
+      if (savedApiKey) {
+        setUserApiKey(savedApiKey);
+      }
+    } catch (e) {
+      console.error("Failed to load API key from localStorage", e);
+    }
+  }, []);
+
+  // 保存 API Key 到本地存储
+  const handleApiKeyChange = useCallback((apiKey: string) => {
+    setUserApiKey(apiKey);
+    try {
+      if (apiKey) {
+        localStorage.setItem('gemini_api_key', apiKey);
+      } else {
+        localStorage.removeItem('gemini_api_key');
+      }
+    } catch (e) {
+      console.error("Failed to save API key to localStorage", e);
+    }
+  }, []);
 
   useEffect(() => {
     const newTranslatedTransformations = getTransformations(t);
@@ -115,6 +143,10 @@ const AppContent: React.FC = () => {
   };
 
   const handleGenerate = useCallback(async () => {
+    if (!userApiKey.trim()) {
+        setError(t('errors.missingApiKey'));
+        return;
+    }
     if (!primaryImageUrl || !selectedTransformation) {
         setError(t('errors.missingImageAndEffect'));
         return;
@@ -123,7 +155,7 @@ const AppContent: React.FC = () => {
         setError(t('errors.missingBothImages'));
         return;
     }
-    
+
     const promptToUse = selectedTransformation.prompt === 'CUSTOM' ? customPrompt : selectedTransformation.prompt;
     if (!promptToUse.trim()) {
         setError(t('errors.missingPrompt'));
@@ -147,7 +179,8 @@ const AppContent: React.FC = () => {
                 primaryMimeType,
                 promptToUse,
                 null,
-                null
+                null,
+                userApiKey
             );
 
             if (!stepOneResult.imageUrl) {
@@ -172,7 +205,8 @@ const AppContent: React.FC = () => {
                 stepOneImageMimeType,
                 selectedTransformation.stepTwoPrompt!,
                 null,
-                secondaryImagePayload
+                secondaryImagePayload,
+                userApiKey
             );
             
             if (stepTwoResult.imageUrl) {
@@ -196,11 +230,12 @@ const AppContent: React.FC = () => {
             }
             setLoadingMessage(t('loading.default'));
             const result = await editImage(
-                primaryBase64, 
-                primaryMimeType, 
+                primaryBase64,
+                primaryMimeType,
                 promptToUse,
                 maskBase64,
-                secondaryImagePayload
+                secondaryImagePayload,
+                userApiKey
             );
 
             if (result.imageUrl) {
@@ -217,7 +252,7 @@ const AppContent: React.FC = () => {
       setIsLoading(false);
       setLoadingMessage('');
     }
-  }, [primaryImageUrl, secondaryImageUrl, selectedTransformation, maskDataUrl, customPrompt, t]);
+  }, [primaryImageUrl, secondaryImageUrl, selectedTransformation, maskDataUrl, customPrompt, userApiKey, t]);
 
 
   const handleUseImageAsInput = useCallback(async (imageUrl: string) => {
@@ -286,35 +321,69 @@ const AppContent: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-black text-gray-300 font-sans">
-      <header className="bg-black/60 backdrop-blur-lg sticky top-0 z-20 p-4 border-b border-white/10">
-        <div className="container mx-auto flex justify-between items-center gap-4">
-          <h1 className="text-2xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-yellow-400 cursor-pointer" onClick={handleResetApp}>
-            {t('header.title')}
-          </h1>
-          <div className="flex items-center gap-4">
-            <LanguageSwitcher />
-            <button
-              onClick={toggleHistoryPanel}
-              className="flex items-center gap-2 py-2 px-3 text-sm font-semibold text-gray-200 bg-gray-800/50 rounded-md hover:bg-gray-700/50 transition-colors duration-200"
-              aria-label={t('header.historyAriaLabel')}
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
-              </svg>
-              <span>{t('header.history')}</span>
-            </button>
+      <header className="bg-black/60 backdrop-blur-lg sticky top-0 z-20 border-b border-white/10">
+        <div className="container mx-auto">
+          {/* 桌面端布局 */}
+          <div className="hidden md:flex justify-between items-center gap-4 p-4">
+            <h1 className="text-2xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-yellow-400 cursor-pointer" onClick={handleResetApp}>
+              {t('header.title')}
+            </h1>
+            <div className="flex items-center gap-4">
+              <LanguageSwitcher />
+              <button
+                onClick={toggleHistoryPanel}
+                className="flex items-center gap-2 py-2 px-3 text-sm font-semibold text-gray-200 bg-gray-800/50 rounded-md hover:bg-gray-700/50 transition-colors duration-200"
+                aria-label={t('header.historyAriaLabel')}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
+                </svg>
+                <span>{t('header.history')}</span>
+              </button>
+            </div>
+          </div>
+
+          {/* 移动端布局 */}
+          <div className="md:hidden">
+            {/* 第一行：标题 */}
+            <div className="flex justify-center items-center p-3 pb-2">
+              <h1 className="text-xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-yellow-400 cursor-pointer" onClick={handleResetApp}>
+                {t('header.title')}
+              </h1>
+            </div>
+
+            {/* 第二行：功能按钮 */}
+            <div className="flex justify-center items-center gap-3 px-4 pb-3">
+              <LanguageSwitcher />
+              <button
+                onClick={toggleHistoryPanel}
+                className="flex items-center gap-2 py-2 px-3 text-sm font-semibold text-gray-200 bg-gray-800/50 rounded-md hover:bg-gray-700/50 transition-colors duration-200"
+                aria-label={t('header.historyAriaLabel')}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
+                </svg>
+                <span className="whitespace-nowrap">{t('header.history')}</span>
+              </button>
+            </div>
           </div>
         </div>
       </header>
 
       <main>
         {!selectedTransformation ? (
-          <TransformationSelector 
-            transformations={transformations} 
-            onSelect={handleSelectTransformation} 
-            hasPreviousResult={!!primaryImageUrl}
-            onOrderChange={setTransformations}
-          />
+          <div className="container mx-auto p-4 md:p-8">
+            <ApiKeySettings
+              onApiKeyChange={handleApiKeyChange}
+              currentApiKey={userApiKey}
+            />
+            <TransformationSelector
+              transformations={transformations}
+              onSelect={handleSelectTransformation}
+              hasPreviousResult={!!primaryImageUrl}
+              onOrderChange={setTransformations}
+            />
+          </div>
         ) : (
           <div className="container mx-auto p-4 md:p-8 animate-fade-in">
             <div className="mb-8">

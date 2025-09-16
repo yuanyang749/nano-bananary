@@ -2,20 +2,30 @@
 import { GoogleGenAI, Modality } from "@google/genai";
 import type { GeneratedContent } from '../types';
 
-if (!process.env.API_KEY) {
-  throw new Error("API_KEY environment variable is not set.");
-}
+// 默认 API Key（如果环境变量存在）
+const defaultApiKey = process.env.API_KEY || '';
 
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+// 创建 AI 实例的函数
+const createAIInstance = (apiKey: string) => {
+  if (!apiKey) {
+    throw new Error("API Key is required. Please provide your Gemini API Key.");
+  }
+  return new GoogleGenAI({ apiKey });
+};
 
 export async function editImage(
-    base64ImageData: string, 
-    mimeType: string, 
+    base64ImageData: string,
+    mimeType: string,
     prompt: string,
     maskBase64: string | null,
-    secondaryImage: { base64: string; mimeType: string } | null
+    secondaryImage: { base64: string; mimeType: string } | null,
+    userApiKey?: string
 ): Promise<GeneratedContent> {
   try {
+    // 使用用户提供的 API Key 或默认的 API Key
+    const apiKeyToUse = userApiKey || defaultApiKey;
+    const ai = createAIInstance(apiKeyToUse);
+
     let fullPrompt = prompt;
     const parts: any[] = [
       {
@@ -36,7 +46,7 @@ export async function editImage(
       });
       fullPrompt = `Apply the following instruction only to the masked area of the image: "${prompt}". Preserve the unmasked area.`;
     }
-    
+
     if (secondaryImage) {
         parts.push({
             inlineData: {

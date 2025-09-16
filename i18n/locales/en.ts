@@ -90,6 +90,19 @@ export default {
     missingPrompt: "Please enter a prompt describing the change you want to see.",
     step1Failed: "Step 1 (line art) failed to generate an image.",
     useAsInputFailed: "Could not use the generated image as a new input.",
+    missingApiKey: "Please set up your Gemini API Key first.",
+  },
+  apiKey: {
+    title: "API Key Settings",
+    notSet: "No API Key set",
+    inputLabel: "Gemini API Key",
+    placeholder: "Enter your Gemini API Key",
+    instructions: "You need a Google AI Studio API Key to use this app. The API Key will be stored securely in your browser locally.",
+    getKeyLink: "Get Free API Key",
+    save: "Save",
+    clear: "Clear",
+    saved: "Saved",
+    validating: "Saving...",
   },
   transformations: {
     custom: {
