@@ -20,7 +20,16 @@
 
 ## 📖 项目简介
 
-**Nano Bananary** 是一款现代化的 AI 驱动图像编辑器，集成了 Google Gemini 的强大视觉理解能力，为用户提供直观、高效的图像变换体验。通过简单的操作界面，用户可以实现复杂的图像编辑效果，从艺术风格转换到创意内容生成，一切尽在掌控。
+**Nano Bananary** 是一款现代化的 AI 驱动图像编辑器，基于 [ZHO-ZHO-ZHO/Nano-Bananary](https://github.com/ZHO-ZHO-ZHO/Nano-Bananary) 项目进行复刻和增强开发。本项目集成了 Google Gemini 的强大视觉理解能力，为用户提供直观、高效的图像变换体验。通过简单的操作界面，用户可以实现复杂的图像编辑效果，从艺术风格转换到创意内容生成，一切尽在掌控。
+
+### 🆕 本项目增强功能
+
+相比原项目，本版本新增了以下重要功能：
+
+- **🌏 中文界面支持**：完整的简体中文本地化，提供更友好的中文用户体验
+- **🔑 自定义 API Key**：用户可在界面中直接设置个人 Gemini API Key，无需环境变量配置
+- **📱 移动端优化**：专门优化的移动端布局，解决小屏幕设备的显示和交互问题
+- **🎨 界面美化**：优化了 UI 组件设计，提升整体视觉体验
 
 ### 🎯 核心价值主张
 
@@ -208,9 +217,28 @@ nano-bananary/
 
 本项目采用 MIT 许可证 - 查看 [LICENSE](LICENSE) 文件了解详情。
 
+## 🙏 致谢
+
+本项目基于 [ZHO-ZHO-ZHO/Nano-Bananary](https://github.com/ZHO-ZHO-ZHO/Nano-Bananary) 进行开发，感谢原作者的优秀工作！
+
+### 原项目信息
+- **原项目地址**：[https://github.com/ZHO-ZHO-ZHO/Nano-Bananary](https://github.com/ZHO-ZHO-ZHO/Nano-Bananary)
+- **详细使用方式**：[原项目 README](https://github.com/ZHO-ZHO-ZHO/Nano-Bananary/blob/main/README.md)
+- **原作者**：[ZHO-ZHO-ZHO](https://github.com/ZHO-ZHO-ZHO)
+
+### 本项目贡献
+在原项目基础上，我们添加了：
+- 🌏 完整的中文界面本地化
+- 🔑 用户友好的 API Key 自定义功能
+- 📱 专门优化的移动端适配
+- 🎨 改进的用户界面设计
+
+感谢开源社区的贡献，让我们能够在优秀项目的基础上继续创新！
+
 ## 📞 联系我们
 
 - **项目地址**：[https://nano.520ai.xin/](https://nano.520ai.xin/)
+- **GitHub 仓库**：[https://github.com/yuanyang749/nano-bananary](https://github.com/yuanyang749/nano-bananary)
 - **问题反馈**：通过 GitHub Issues 提交
 - **功能建议**：欢迎通过 Issues 或 Discussions 提出
 
@@ -219,4 +247,5 @@ nano-bananary/
 <div align="center">
   <p>🍌 <strong>Nano Bananary</strong> - 让 AI 图像编辑变得简单而有趣</p>
   <p>Made with ❤️ by the Nano Bananary Team</p>
+  <p><em>基于 <a href="https://github.com/ZHO-ZHO-ZHO/Nano-Bananary">ZHO-ZHO-ZHO/Nano-Bananary</a> 项目开发</em></p>
 </div>
