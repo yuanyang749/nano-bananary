@@ -1,0 +1,242 @@
+/* 🍌 Nano Bananary - 自定义样式 */
+
+/* 淡入动画 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 卡片入场动画 */
+@keyframes cardSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* 脉冲光效动画 */
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(249, 115, 22, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(249, 115, 22, 0.5), 0 0 40px rgba(249, 115, 22, 0.3);
+  }
+}
+
+/* 彩虹边框动画 */
+@keyframes rainbow-border {
+  0% { border-color: rgba(249, 115, 22, 0.5); }
+  16% { border-color: rgba(239, 68, 68, 0.5); }
+  33% { border-color: rgba(168, 85, 247, 0.5); }
+  50% { border-color: rgba(59, 130, 246, 0.5); }
+  66% { border-color: rgba(16, 185, 129, 0.5); }
+  83% { border-color: rgba(34, 197, 94, 0.5); }
+  100% { border-color: rgba(249, 115, 22, 0.5); }
+}
+
+/* 波纹效果 */
+@keyframes ripple {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+/* 悬浮动画 */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* 旋转脉冲 */
+@keyframes spin-pulse {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+  50% {
+    transform: rotate(180deg) scale(1.1);
+  }
+  100% {
+    transform: rotate(360deg) scale(1);
+  }
+}
+
+/* 工具类 */
+.animate-fade-in {
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+.animate-card-slide-in {
+  animation: cardSlideIn 0.5s ease-out forwards;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.animate-rainbow-border {
+  animation: rainbow-border 3s linear infinite;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-spin-pulse {
+  animation: spin-pulse 2s ease-in-out infinite;
+}
+
+/* 变换卡片特殊效果 */
+.transformation-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.transformation-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transform: rotate(45deg);
+  transition: all 0.6s;
+  opacity: 0;
+}
+
+.transformation-card:hover::before {
+  animation: shimmer 0.6s ease-out;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%) translateY(-100%) rotate(45deg);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(100%) translateY(100%) rotate(45deg);
+    opacity: 0;
+  }
+}
+
+/* 点击波纹效果 */
+.ripple-effect {
+  position: relative;
+  overflow: hidden;
+}
+
+.ripple-effect::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.ripple-effect:active::after {
+  width: 300px;
+  height: 300px;
+}
+
+/* 响应式优化 */
+@media (max-width: 640px) {
+  .transformation-card {
+    transform: none !important;
+  }
+  
+  .transformation-card:hover {
+    transform: scale(1.02) !important;
+  }
+}
+
+/* 减少动画对于偏好减少动画的用户 */
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-in,
+  .animate-card-slide-in,
+  .animate-pulse-glow,
+  .animate-rainbow-border,
+  .animate-float,
+  .animate-spin-pulse {
+    animation: none;
+  }
+  
+  .transformation-card {
+    transition: none;
+  }
+  
+  .transformation-card:hover {
+    transform: none;
+  }
+}
+
+/* 高对比度模式支持 */
+@media (prefers-contrast: high) {
+  .transformation-card {
+    border-width: 2px;
+  }
+}
+
+/* 暗色主题优化 */
+@media (prefers-color-scheme: dark) {
+  .transformation-card {
+    backdrop-filter: blur(10px);
+  }
+}
+
+/* 自定义滚动条 */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(45deg, #f97316, #eab308);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(45deg, #ea580c, #d97706);
+}
+
+/* 选择文本样式 */
+::selection {
+  background: rgba(249, 115, 22, 0.3);
+  color: white;
+}
+
+::-moz-selection {
+  background: rgba(249, 115, 22, 0.3);
+  color: white;
+}
