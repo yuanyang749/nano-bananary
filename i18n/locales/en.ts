@@ -226,4 +226,14 @@ export default {
       description: "Swaps the existing background for a cool, retro Y2K aesthetic.",
     },
   },
+  slider: {
+    title: "Price Range Slider Demo",
+    demoTitle: "Price Range Slider",
+    description: "This is a fully functional dual-handle price slider component with drag support, real-time updates, and responsive design.",
+    backToHome: "Back to Home",
+    averagePrice: "The average nightly price is",
+    clear: "Clear",
+    apply: "Apply",
+    note: "This is a standalone demo component showcasing modern price range selector functionality.",
+  },
 };

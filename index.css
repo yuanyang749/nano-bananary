@@ -240,3 +240,129 @@
   background: rgba(249, 115, 22, 0.3);
   color: white;
 }
+
+/* 价格滑块专用样式 */
+.price-slider-container {
+  position: relative;
+  user-select: none;
+}
+
+.price-slider-track {
+  position: relative;
+  height: 8px;
+  background: linear-gradient(90deg, #374151 0%, #4b5563 100%);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.price-slider-range {
+  position: absolute;
+  height: 100%;
+  background: linear-gradient(90deg, #14b8a6 0%, #0d9488 100%);
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.price-slider-thumb {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  background: white;
+  border: 3px solid #14b8a6;
+  border-radius: 50%;
+  cursor: grab;
+  transform: translate(-50%, -50%);
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.price-slider-thumb:hover {
+  transform: translate(-50%, -50%) scale(1.1);
+  box-shadow: 0 4px 12px rgba(20, 184, 166, 0.4);
+}
+
+.price-slider-thumb:active,
+.price-slider-thumb.dragging {
+  cursor: grabbing;
+  transform: translate(-50%, -50%) scale(1.2);
+  box-shadow: 0 6px 16px rgba(20, 184, 166, 0.6);
+}
+
+/* 价格分布图表样式 */
+.price-chart-bar {
+  background: linear-gradient(180deg, #14b8a6 0%, #0d9488 100%);
+  border-radius: 2px 2px 0 0;
+  transition: all 0.3s ease;
+}
+
+.price-chart-bar.highlighted {
+  background: linear-gradient(180deg, #06b6d4 0%, #0891b2 100%);
+  opacity: 0.9;
+}
+
+/* 价格输入框样式 */
+.price-input {
+  background: rgba(31, 41, 55, 0.8);
+  border: 1px solid rgba(75, 85, 99, 0.6);
+  border-radius: 6px;
+  color: white;
+  padding: 8px 12px;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.price-input:focus {
+  outline: none;
+  border-color: #14b8a6;
+  box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.1);
+}
+
+.price-input:hover {
+  border-color: rgba(107, 114, 128, 0.8);
+}
+
+/* 滑块页面专用动画 */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.slider-demo-container {
+  animation: slideIn 0.6s ease-out;
+}
+
+/* 响应式优化 */
+@media (max-width: 640px) {
+  .price-slider-thumb {
+    width: 28px;
+    height: 28px;
+    border-width: 4px;
+  }
+
+  .price-slider-track {
+    height: 10px;
+  }
+
+  .price-input {
+    padding: 10px 14px;
+    font-size: 16px; /* 防止iOS缩放 */
+  }
+}
+
+/* 触摸设备优化 */
+@media (hover: none) and (pointer: coarse) {
+  .price-slider-thumb {
+    width: 32px;
+    height: 32px;
+  }
+
+  .price-slider-thumb:hover {
+    transform: translate(-50%, -50%);
+  }
+}

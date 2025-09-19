@@ -1,6 +1,7 @@
 
 
 import React, { useState, useCallback, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { getTransformations } from './constants';
 import { editImage } from './services/geminiService';
 import type { GeneratedContent, Transformation } from './types';
@@ -16,6 +17,7 @@ import HistoryPanel from './components/HistoryPanel';
 import { I18nProvider, useI18n } from './i18n';
 import LanguageSwitcher from './components/LanguageSwitcher';
 import ApiKeySettings from './components/ApiKeySettings';
+import SliderDemo from './pages/SliderDemo';
 
 type ActiveTool = 'mask' | 'none';
 
@@ -546,7 +548,12 @@ const AppContent: React.FC = () => {
 
 const App: React.FC = () => (
   <I18nProvider>
-    <AppContent />
+    <Router>
+      <Routes>
+        <Route path="/" element={<AppContent />} />
+        <Route path="/slider" element={<SliderDemo />} />
+      </Routes>
+    </Router>
   </I18nProvider>
 );
 
