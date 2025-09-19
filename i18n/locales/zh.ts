@@ -226,14 +226,4 @@ export default {
       description: "将现有背景替换为酷炫复古的Y2K美学风格。",
     },
   },
-  slider: {
-    title: "价格区间滑块演示",
-    demoTitle: "价格区间滑块",
-    description: "这是一个功能完整的双端价格滑块组件，支持拖拽操作、实时更新和响应式设计。",
-    backToHome: "返回主页",
-    averagePrice: "平均夜间价格为",
-    clear: "清除",
-    apply: "应用",
-    note: "这是一个独立的演示组件，展示了现代化的价格区间选择器功能。",
-  },
 };
